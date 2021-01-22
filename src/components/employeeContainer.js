@@ -13,7 +13,6 @@ class EmployeeContainer extends Component {
     search: ""
   };
 
-  // When this component mounts, search for specific employee
   componentDidMount() {
   this.loadApi()
   };
@@ -40,7 +39,7 @@ class EmployeeContainer extends Component {
     });
   };
 
-  // When the form is submitted, search the Employee API for the value of `this.state.search`
+
   handleFormSubmit = event => {
     event.preventDefault();
     const filteredResults = this.state.result.filter(employee => employee.name.first.includes(this.state.search))
@@ -54,6 +53,12 @@ class EmployeeContainer extends Component {
     console.log(this.state.search);
     this.setState({result: filteredResults});
   };
+
+  resetSearch = event => {
+    event.preventDefault(); 
+    const reset = this.loadApi(); 
+    return reset;
+  }
 
   handleCitySort = event => {
     event.preventDefault();
@@ -74,6 +79,9 @@ class EmployeeContainer extends Component {
                 value={this.state.search}
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
+                handleNameSort={this.handleNameSort}
+                handleCitySort={this.handleCitySort}
+                resetSearch={this.resetSearch}
               />
             </Col>
           </div>
