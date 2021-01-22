@@ -15,27 +15,20 @@ class EmployeeContainer extends Component {
 
   // When this component mounts, search for specific employee
   componentDidMount() {
+  this.loadApi()
+  };
+  
+  loadApi = () => {
     API.getUsers()
-      .then((res) => {
-        this.setState({
-          employees: res.data.results.map((e, i) => ({
-            firstName: e.name.first,
-            lastName: e.name.last,
-            picture: e.picture.large,
-            email: e.email,
-            phone: e.phone,
-            city: e.location.city,
-            key: i,
-          })),
-        });
-      })
-      .catch((err) => console.log(err));
-  }
-
+    .then(res =>
+      this.setState({result: res.data.results})
+      )
+      .catch(err => console.log(err));
+  }; 
 
   searchEmployee = query => {
-    API.getUsers(query)
-      .then(res => this.setState({ result: res.data.results }))
+    API.getUsers(query)  
+    .then(res => this.setState({ result: res.data.results }))
       .catch(err => console.log(err));
   };
 
@@ -50,7 +43,9 @@ class EmployeeContainer extends Component {
   // When the form is submitted, search the Employee API for the value of `this.state.search`
   handleFormSubmit = event => {
     event.preventDefault();
-    this.searchEmployee(this.state.search);
+    const filteredResults = this.state.result.filter(person => person.name.last.includes(this.state.search))
+    console.log(this.state.search);
+    this.setState({result: filteredResults});
   };
 
   render() {
@@ -76,23 +71,22 @@ class EmployeeContainer extends Component {
               <thead>
                 <tr>
                   <th>Photo</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
+                  <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
                   <th>City</th>
                 </tr>
               </thead>
               <tbody>
-                {[...this.state.result].map((item) => (
+                {[...this.state.result].map((data) => (
                   <Card
-                    picture={item.picture}
-                    firstName={item.name.first}
-                    lastName={item.name.last}
-                    email={item.email}
-                    phone={item.phone}
-                    city={item.location.city}
-                    key={item.key}
+                    picture={data.picture.thumbnail}
+                    firstName={data.name.first}
+                    lastName={data.name.last}
+                    email={data.email}
+                    phone={data.phone}
+                    city={data.location.city}
+                    key={data.id.value}
                   />
                 ))}
               </tbody>
