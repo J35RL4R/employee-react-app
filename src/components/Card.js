@@ -4,7 +4,7 @@ function Card(props) {
   return (
     <tr>
       <th>
-        <img alt={props.firstName} src={props.picture} />
+        <img alt={props.firstName} src={props.picture.thumbnail} />
       </th>
       <td>{props.firstName}</td>
       <td>{props.lastName}</td>

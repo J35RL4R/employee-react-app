@@ -21,7 +21,7 @@ class EmployeeContainer extends Component {
           employees: res.data.results.map((e, i) => ({
             firstName: e.name.first,
             lastName: e.name.last,
-            picture: e.picture.large,
+            picture: e.picture.thumbnail,
             email: e.email,
             phone: e.phone,
             city: e.location.city,
@@ -34,8 +34,8 @@ class EmployeeContainer extends Component {
 
 
   searchEmployee = query => {
-    API.getUsers(query)
-      .then(res => this.setState({ result: res.data.results }))
+    API.getUsers(query)  
+    .then(res => this.setState({ result: res.data.results }))
       .catch(err => console.log(err));
   };
 
@@ -84,15 +84,15 @@ class EmployeeContainer extends Component {
                 </tr>
               </thead>
               <tbody>
-                {[...this.state.result].map((item) => (
+                {[...this.state.result].map((res) => (
                   <Card
-                    picture={item.picture}
-                    firstName={item.name.first}
-                    lastName={item.name.last}
-                    email={item.email}
-                    phone={item.phone}
-                    city={item.location.city}
-                    key={item.key}
+                    picture={res.picture}
+                    firstName={res.name.first}
+                    lastName={res.name.last}
+                    email={res.email}
+                    phone={res.phone}
+                    city={res.location.city}
+                    key={res.key}
                   />
                 ))}
               </tbody>
