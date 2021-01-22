@@ -13,7 +13,6 @@ class EmployeeContainer extends Component {
     search: ""
   };
 
-  // When this component mounts, search for specific employee
   componentDidMount() {
   this.loadApi()
   };
@@ -40,14 +39,34 @@ class EmployeeContainer extends Component {
     });
   };
 
-  // When the form is submitted, search the Employee API for the value of `this.state.search`
+
   handleFormSubmit = event => {
     event.preventDefault();
-    const filteredResults = this.state.result.filter(person => person.name.last.includes(this.state.search))
+    const filteredResults = this.state.result.filter(employee => employee.name.first.includes(this.state.search))
+    console.log(this.state.search);
+    this.setState({result: filteredResults});
+  };
+  
+  handleNameSort = event => {
+    event.preventDefault();
+    const filteredResults = this.state.result.sort((a, b) => (a.name.first > b.name.first)? 1 : -1)
     console.log(this.state.search);
     this.setState({result: filteredResults});
   };
 
+  resetSearch = event => {
+    event.preventDefault(); 
+    const reset = this.loadApi(); 
+    return reset;
+  }
+
+  handleCitySort = event => {
+    event.preventDefault();
+    const filteredResults = this.state.result.sort((a, b) => (a.location.city > b.location.city)? 1 : -1)
+    console.log(this.state.search);
+    this.setState({result: filteredResults});
+  };
+  
   render() {
     return (
       <Wrapper>
@@ -60,6 +79,9 @@ class EmployeeContainer extends Component {
                 value={this.state.search}
                 handleInputChange={this.handleInputChange}
                 handleFormSubmit={this.handleFormSubmit}
+                handleNameSort={this.handleNameSort}
+                handleCitySort={this.handleCitySort}
+                resetSearch={this.resetSearch}
               />
             </Col>
           </div>
@@ -71,10 +93,10 @@ class EmployeeContainer extends Component {
               <thead>
                 <tr>
                   <th>Photo</th>
-                  <th>Name</th>
+                  <th onClick={this.handleNameSort}>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>City</th>
+                  <th onClick={this.handleCitySort}>City</th>
                 </tr>
               </thead>
               <tbody>
