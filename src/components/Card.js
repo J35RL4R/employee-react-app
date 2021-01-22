@@ -1,16 +1,20 @@
 import React from "react";
 
 function Card(props) {
+  
   return (
     <tr>
       <th>
-        <img alt={props.firstName} src={props.picture.thumbnail} />
+        <img alt={props.firstName} src={props.picture} />
       </th>
-      <td>{props.firstName}</td>
-      <td>{props.lastName}</td>
-      <td>{props.email}</td>
+      <td>{props.firstName} {props.lastName}</td>
+      <td><a href={"mailto:" + props.email} target="__blank">
+        {props.email}
+      </a>
+      </td>
       <td>{props.phone}</td>
       <td>{props.city}</td>
+      <td>{props.dob}</td>
     </tr>
   );
 }
