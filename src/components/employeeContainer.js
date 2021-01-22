@@ -43,11 +43,25 @@ class EmployeeContainer extends Component {
   // When the form is submitted, search the Employee API for the value of `this.state.search`
   handleFormSubmit = event => {
     event.preventDefault();
-    const filteredResults = this.state.result.filter(person => person.name.last.includes(this.state.search))
+    const filteredResults = this.state.result.filter(employee => employee.name.first.includes(this.state.search))
+    console.log(this.state.search);
+    this.setState({result: filteredResults});
+  };
+  
+  handleNameSort = event => {
+    event.preventDefault();
+    const filteredResults = this.state.result.sort((a, b) => (a.name.first > b.name.first)? 1 : -1)
     console.log(this.state.search);
     this.setState({result: filteredResults});
   };
 
+  handleCitySort = event => {
+    event.preventDefault();
+    const filteredResults = this.state.result.sort((a, b) => (a.location.city > b.location.city)? 1 : -1)
+    console.log(this.state.search);
+    this.setState({result: filteredResults});
+  };
+  
   render() {
     return (
       <Wrapper>
@@ -71,10 +85,10 @@ class EmployeeContainer extends Component {
               <thead>
                 <tr>
                   <th>Photo</th>
-                  <th>Name</th>
+                  <th onClick={this.handleNameSort}>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
-                  <th>City</th>
+                  <th onClick={this.handleCitySort}>City</th>
                 </tr>
               </thead>
               <tbody>
